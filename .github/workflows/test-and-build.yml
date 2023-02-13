@@ -1,12 +1,13 @@
-name: goreleaser
+name: test-and-build
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - 'main'
+  pull_request:
 
 jobs:
-  goreleaser:
+  test-and-build:
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -21,10 +22,9 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
-        with:
-          version: latest
-          args: release --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: go test
+        run: |
+          go test -v ./...
+      - name: go build
+        run: |
+          go build .
