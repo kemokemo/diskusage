@@ -1,0 +1,46 @@
+project_name: diskusage
+builds:
+  - main: .
+    binary: diskusage
+    # refer to the https://pkg.go.dev/cmd/link
+    ldflags:
+      - -s -w -X main.Revision={{.ShortCommit}}
+    goos:
+      - windows
+    goarch:
+      - '386'
+      - amd64
+changelog:
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      windows: Windows
+      amd64: x86_64
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+release:
+  prerelease: auto
+brews:
+  - tap:
+      owner: kemokemo
+      name: homebrew-tap
+    homepage: "https://github.com/kemokemo/diskusage"
+    description: "This is a tiny tool to show the diskusage of the Windows. "
+    install: |
+      bin.install "diskusage"
+scoop:
+  bucket:
+    owner: kemokemo
+    name: scoop-bucket
+  homepage:  https://github.com/kemokemo/diskusage
+  description: This is a tiny tool to show the diskusage of the Windows. 
+  license: MIT
