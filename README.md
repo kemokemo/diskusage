@@ -1,6 +1,7 @@
 # diskusage
 
-This is a tiny tool to show the diskusage of the Windows.
+This is a tiny tool to show the diskusage of the Windows.  
+This tool was created for Windows environments where you cannot casually type "df -h" to check disk space.
 
 ## Install
 
